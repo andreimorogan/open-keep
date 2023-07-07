@@ -1,32 +1,12 @@
 "use client";
-import Sidebar from "@/components/Sidebar";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-
+import { Switch } from "@mui/material";
 
 const Home = () => {
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#202124',
-      },
-      text: {
-        primary: '#e8eaed',
-      },
-      background: {
-        default: '#202124',
-        paper: "#202124"
-      },
-    },
-  });
-
-
   return(
     <>
-      <ThemeProvider theme={theme}>
-        <Sidebar />
-      </ThemeProvider>
+      <Switch value="checkedA" inputProps={{ 'aria-label': 'Switch A' }} />
     </>
   );
 }
