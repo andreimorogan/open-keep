@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -20,9 +19,9 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Topbar from './Toolbar';
 
-
-const drawerWidth = 200;
+const drawerWidth = 300;
 
 export default function Sidebar() {
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -31,11 +30,13 @@ export default function Sidebar() {
         setMobileOpen(!mobileOpen);
     };
 
+    
+
     const drawer = (
         <div>
-            <Toolbar disableGutters={true} className='p-4'>
+            <Toolbar disableGutters={true} className="p-4">
                 <div className="flex items-center gap-2">
-                    <SummarizeIcon sx={{ color: "green" }} />
+                    <SummarizeIcon sx={{ color: '#902bf5' }} />
                     <Typography variant="h6" noWrap component="div">
                         Open Keep
                     </Typography>
@@ -46,12 +47,17 @@ export default function Sidebar() {
                     <ListItem key={text} disablePadding>
                         <ListItemButton>
                             <ListItemIcon>
-                                {index === 0 ? <NoteIcon sx={{ color: '#e8eaed' }} /> :
-                                    index === 1 ? <NotificationsIcon sx={{ color: '#e8eaed' }} /> :
-                                        index === 2 ? <ModeEditIcon sx={{ color: '#e8eaed' }} /> :
-                                            index === 3 ? <ArchiveIcon sx={{ color: '#e8eaed' }} /> :
-                                                index === 4 ? <DeleteIcon sx={{ color: '#e8eaed' }} /> :
-                                                    null}
+                                {index === 0 ? (
+                                    <NoteIcon />
+                                ) : index === 1 ? (
+                                    <NotificationsIcon />
+                                ) : index === 2 ? (
+                                    <ModeEditIcon />
+                                ) : index === 3 ? (
+                                    <ArchiveIcon />
+                                ) : index === 4 ? (
+                                    <DeleteIcon />
+                                ) : null}
                             </ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItemButton>
@@ -70,8 +76,8 @@ export default function Sidebar() {
                 sx={{
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
                     ml: { sm: `${drawerWidth}px` },
-
                 }}
+                className='p-2'
             >
                 <Toolbar>
                     <IconButton
@@ -79,10 +85,11 @@ export default function Sidebar() {
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' }, }}
+                        sx={{ mr: 2, display: { sm: 'none' } }}
                     >
                         <MenuIcon />
                     </IconButton>
+                <Topbar />
                 </Toolbar>
             </AppBar>
             <Box
@@ -101,7 +108,6 @@ export default function Sidebar() {
                         display: { xs: 'block', sm: 'none' },
                         '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                     }}
-
                 >
                     {drawer}
                 </Drawer>
@@ -109,7 +115,7 @@ export default function Sidebar() {
                     variant="permanent"
                     sx={{
                         display: { xs: 'none', sm: 'block' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderWidth: '0' },
                     }}
                     open
                 >
