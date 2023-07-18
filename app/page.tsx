@@ -1,21 +1,42 @@
 "use client";
 
-import { ThemeContext } from "@/components/Theme";
-import { Switch } from "@mui/material";
-import { useContext } from "react";
+import NoteCard from "@/components/common/NoteCard";
+import NoteContainer from "@/components/common/NoteContainer";
+import NoteInput from "@/components/common/NoteInput";
 
 const Home = () => {
 
-  const { isDarkTheme, setIsDarkTheme } = useContext(ThemeContext);
-
-  const handleThemeToggle = () => {
-    setIsDarkTheme(prev => !prev);
-  };
-
-
   return(
     <>
-      <Switch onClick={handleThemeToggle} value="checkedA" inputProps={{ 'aria-label': 'Switch A' }} />
+      <NoteInput />
+      <NoteContainer>
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+        <NoteCard />
+
+      </NoteContainer>
     </>
   );
 }

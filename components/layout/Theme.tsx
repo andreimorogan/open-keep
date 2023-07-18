@@ -9,15 +9,21 @@ type ThemeProps = {
 type ThemeContextProps = {
     isDarkTheme: boolean;
     setIsDarkTheme: React.Dispatch<React.SetStateAction<boolean>>;
+    toggleTheme: () => void;
 };
 
 export const ThemeContext = createContext<ThemeContextProps>({
     isDarkTheme: true,
     setIsDarkTheme: () => { },
+    toggleTheme: () => { }
 });
 
 const Theme: React.FC<ThemeProps> = ({ children }) => {
     const [isDarkTheme, setIsDarkTheme] = useState<boolean>(true);
+
+    const toggleTheme = () => {
+        setIsDarkTheme(prev => !prev);
+    };
 
 
     const theme = createTheme({
@@ -44,6 +50,7 @@ const Theme: React.FC<ThemeProps> = ({ children }) => {
     const contextValue: ThemeContextProps = {
         isDarkTheme,
         setIsDarkTheme,
+        toggleTheme
     };
     
 
