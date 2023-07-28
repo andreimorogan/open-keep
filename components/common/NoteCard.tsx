@@ -2,18 +2,22 @@ import { Box, Typography } from "@mui/material"
 import React from "react"
 
 type NoteCardProps = {
-    title?: string
+    title?: string,
+    content?: string
 }
 
 const NoteCard: React.FC<NoteCardProps> = ({
-    title
+    title,
+    content
 }) => {
     return (
-        <Box className="rounded border p-4">
+        <Box className="rounded border p-4 flex flex-col">
             <Typography variant="h6">
-                Test
+                {title}
             </Typography>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis voluptates temporibus maiores numquam delectus dignissimos excepturi, pariatur exercitationem aliquid expedita dolorum, laboriosam tenetur voluptas cum laudantium, quaerat error fugiat. Neque?
+            <Typography sx={{ overflowWrap: 'break-word'}}>
+                {content}
+            </Typography>
         </Box>
     )
 }

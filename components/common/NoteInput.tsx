@@ -9,7 +9,7 @@ import { Tooltip } from '@mui/material';
 export default function NoteInput() {
     return (
 
-        <Box sx={{ '& > :not(style)': { m: 1 }}} className="p-5 flex justify-center">
+        <Box sx={{ '& > :not(style)': { my: 1 }}} className="py-5 pr-12 pl-6  flex justify-center">
             <Box className="border rounded p-2 w-full lg:w-2/4">
                 <TextField
                     fullWidth

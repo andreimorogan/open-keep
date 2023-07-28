@@ -1,19 +1,21 @@
-import { Grid } from "@mui/material";
-import React from "react";
+import { Masonry } from "@mui/lab";
+import React, { Children } from "react";
 
 type NoteContainerProps = {
     children: React.ReactNode;
 };
 
 const NoteContainer: React.FC<NoteContainerProps> = ({ children }) => {
+    const childElements = Children.toArray(children);
+
     return (
-        <Grid container spacing={2}>
-            {React.Children.map(children, (child) => (
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+        <Masonry columns={{xs: 1, md: 1, lg: 4, xl: 5}} spacing={2} sx={{}}>
+            {childElements.map((child, index) => (
+                <div key={index}>
                     {child}
-                </Grid>
+                </div>
             ))}
-        </Grid>
+        </Masonry>
     );
 };
 
