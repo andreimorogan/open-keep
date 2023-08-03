@@ -11,7 +11,7 @@ const Topbar = () => {
     return (
         <Box className="w-full flex items-center mt-2 sm:mt-0">
             <div
-                className="flex items-center rounded p-2 mb-1 w-full sm:w-2/4 mr-2"
+                className="flex items-center rounded p-2 mb-1 w-full lg:w-2/4 mr-2"
                 style={{ backgroundColor: '#525356' }}
             >
                 <SearchIcon sx={{ mr: 1 }} />
@@ -26,8 +26,8 @@ const Topbar = () => {
                 <Tooltip title="Account">
                     <Avatar
                         src="https://cdn.britannica.com/47/80547-050-8B316D38/Field-green-tea-Mount-Fuji-Shizuoka-prefecture.jpg"
-                        sx={{ marginLeft: 'auto' }} /
-                    >
+                        sx={{ marginLeft: 'auto' }} 
+                    />
                 </Tooltip>
             </div>
 

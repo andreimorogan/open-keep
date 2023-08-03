@@ -15,7 +15,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
             <Typography variant="h6">
                 {title}
             </Typography>
-            <Typography sx={{ overflowWrap: 'break-word'}}>
+            <Typography className="mt-2 text-sm" sx={{ overflowWrap: 'break-word'}}>
                 {content}
             </Typography>
         </Box>

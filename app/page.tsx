@@ -3,25 +3,40 @@
 import NoteCard from "@/components/common/NoteCard";
 import NoteContainer from "@/components/common/NoteContainer";
 import NoteInput from "@/components/common/NoteInput";
-import { createClient } from '@supabase/supabase-js'
+import { CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
+
+type Notes = {
+  error?: string,
+  data: {
+    note_id: number,
+    user_id: number,
+    title: string,
+    content: string
+  }[],
+  count?: number,
+  status: number,
+  statusText: string
+}
 
 
 const Home = () => {
-  
-  const [notes, setNotes] = useState<any>()
 
-  const supabase = createClient('https://zpkokgnpxbrenwhtpcev.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpwa29rZ25weGJyZW53aHRwY2V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODk3MDM2MjMsImV4cCI6MjAwNTI3OTYyM30.tW-gUKSJ_PUXTdXuAfVXUB_W1bAlV2kpizXv0gOjwZs')
+  const [notes, setNotes] = useState<Notes>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const loadNotes = async () => {
     try {
-      const { data, error } = await supabase.from('notes').select();
-      if (error) {
-        throw error;
+      const response = await fetch(`/api/notes`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch notes');
       }
-      setNotes(data); // Update the 'notes' state with the fetched data
+      const loadedNotes: Notes = await response.json(); 
+      setNotes(loadedNotes);
     } catch (error) {
-      console.error('Error fetching data from Supabase:', error);
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -31,12 +46,22 @@ const Home = () => {
 
   return (
     <>
-      <NoteInput />
-      <NoteContainer>
-        {notes?.map((note: any) => (
-          <NoteCard key={note.user_id} title={note.title} content={note.content} />
-        ))}
-      </NoteContainer>
+      <div className="flex flex-col items-center justify-center">
+        <NoteInput />
+        {loading ?
+          <CircularProgress sx={{ position: 'absolute', top: '50%', left: '50%' }} />
+          :
+          <NoteContainer>
+            {notes?.data.map((note) => (
+              <NoteCard
+                key={note.user_id}
+                title={note.title}
+                content={note.content}
+              />
+            ))}
+          </NoteContainer>
+        }
+      </div>
     </>
   );
 }
