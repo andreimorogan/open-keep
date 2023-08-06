@@ -17,13 +17,44 @@ type Notes = {
   count?: number,
   status: number,
   statusText: string
-}
-
+};
 
 const Home = () => {
 
   const [notes, setNotes] = useState<Notes>();
+  const [checkedNotes, setCheckedNotes] = useState<number[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const onCardCheck = (id: number) => {
+    setCheckedNotes((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter(noteId => noteId !== id);
+      } else {
+        return [...prev, id];
+      };
+    });
+  };
+
+  const handleDeleteNotes = async () => {
+    try {
+      const queryParams = new URLSearchParams();
+      checkedNotes.forEach(id => queryParams.append('ids', id.toString()));
+
+      const response = await fetch(`/api/notes?${queryParams.toString()}`, {
+        method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete notes');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
 
   const loadNotes = async () => {
     try {
@@ -31,7 +62,7 @@ const Home = () => {
       if (!response.ok) {
         throw new Error('Failed to fetch notes');
       }
-      const loadedNotes: Notes = await response.json(); 
+      const loadedNotes: Notes = await response.json();
       setNotes(loadedNotes);
     } catch (error) {
       console.error(error);
@@ -42,11 +73,12 @@ const Home = () => {
 
   useEffect(() => {
     loadNotes()
-  }, [])
+  }, []);
 
   return (
     <>
       <div className="flex flex-col items-center justify-center">
+        <div className="cursor-pointer" onClick={() => handleDeleteNotes()}>Teeeest</div>
         <NoteInput />
         {loading ?
           <CircularProgress sx={{ position: 'absolute', top: '50%', left: '50%' }} />
@@ -55,8 +87,8 @@ const Home = () => {
             {notes?.data.map((note) => (
               <NoteCard
                 key={note.user_id}
-                title={note.title}
-                content={note.content}
+                note={note}
+                onCardCheck={onCardCheck}
               />
             ))}
           </NoteContainer>

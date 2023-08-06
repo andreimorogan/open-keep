@@ -1,6 +1,6 @@
-"use client";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { createContext, useState, useContext } from 'react';
+"use client"
+import React, { createContext, useState, useContext } from "react";
+import { createTheme, ThemeProvider, Theme } from "@mui/material/styles"; // Import the Theme type
 
 type ThemeProps = {
     children: React.ReactNode;
@@ -10,25 +10,26 @@ type ThemeContextProps = {
     isDarkTheme: boolean;
     setIsDarkTheme: React.Dispatch<React.SetStateAction<boolean>>;
     toggleTheme: () => void;
+    theme: Theme; 
 };
 
 export const ThemeContext = createContext<ThemeContextProps>({
     isDarkTheme: true,
     setIsDarkTheme: () => { },
-    toggleTheme: () => { }
+    toggleTheme: () => { },
+    theme: createTheme(),
 });
 
-const Theme: React.FC<ThemeProps> = ({ children }) => {
+const ThemeProviderComponent: React.FC<ThemeProps> = ({ children }) => {
     const [isDarkTheme, setIsDarkTheme] = useState<boolean>(true);
 
     const toggleTheme = () => {
-        setIsDarkTheme(prev => !prev);
+        setIsDarkTheme((prev) => !prev);
     };
-
 
     const theme = createTheme({
         palette: {
-            mode: isDarkTheme ? 'dark' : 'light',
+            mode: isDarkTheme ? "dark" : "light",
             primary: {
                 main: '#902bf5',
             },
@@ -40,19 +41,18 @@ const Theme: React.FC<ThemeProps> = ({ children }) => {
                 paper: isDarkTheme ? '#202124' : '#fff',
             },
             text: {
-                primary: isDarkTheme ? '#E8EAED' : '#000',
+                primary: isDarkTheme ? '#D9DBDE' : '#000',
                 secondary: isDarkTheme ? '#bdbdbd' : '#616161',
             },
         },
     });
 
-
     const contextValue: ThemeContextProps = {
         isDarkTheme,
         setIsDarkTheme,
-        toggleTheme
+        toggleTheme,
+        theme,
     };
-    
 
     return (
         <ThemeContext.Provider value={contextValue}>
@@ -61,4 +61,4 @@ const Theme: React.FC<ThemeProps> = ({ children }) => {
     );
 };
 
-export default Theme;
+export default ThemeProviderComponent;

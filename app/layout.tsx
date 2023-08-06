@@ -8,8 +8,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Open Keep',
-  description: 'Open source notes & reminder app',
-}
+  description: 'Open source notes & reminders app',
+};
 
 export default function RootLayout({
   children,

@@ -28,7 +28,7 @@ export default function NoteInput() {
     return (
         <>
             {!input.isActive ?
-            <Box className="border rounded w-3/4 py-2 px-4 my-6 lg:w-2/5"
+            <Box className="border rounded-lg w-3/4 py-2 px-4 my-6 lg:w-2/5 shadow"
                 >
                     <TextField
                         fullWidth
@@ -54,7 +54,7 @@ export default function NoteInput() {
                     />
                 </Box>
                 : 
-                <Box className="border rounded w-3/4 py-2 px-4 my-6 lg:w-2/5" onBlur={handleBlur}>
+                <Box className="border rounded-lg w-3/4 py-2 px-4 my-6 lg:w-2/5" onBlur={handleBlur}>
                     <TextField
                         className='mt-1'
                         fullWidth

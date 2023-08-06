@@ -12,12 +12,19 @@ export async function GET() {
 };
 
 export async function DELETE(request: Request) {
+    const queryParams = new URLSearchParams(request.url.split('?')[1]);
+    const idsToDelete = queryParams.getAll('ids');
 
-    const res = await request.json();
+    idsToDelete.forEach(async (id) => {
+        await supabase.from('notes').delete().in('note_id', idsToDelete);
+    });
 
-    console.log(res);
+    return NextResponse.json(idsToDelete, { status: 200 });
+};
 
-    // const res = await supabase.from('notes').delete().eq('note_id', -1);
+export async function POST(request: Request) {
 
-    return NextResponse.json(null, {status: 200})
+    const body = await request.json();
+
+    return NextResponse.json(body, { status: 200 })
 };
