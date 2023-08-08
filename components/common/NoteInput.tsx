@@ -13,7 +13,13 @@ export default function NoteInput() {
     const [input, setInput] = useState({
         isActive: false,
         isList: false
-    })
+    });
+
+    const [note, setNote] = useState({
+        title: "",
+        content: "",
+        user_id: 1
+    });
 
     const handleBlur = (e: React.FormEvent) => {
         const currentTarget = e.currentTarget;
@@ -25,11 +31,30 @@ export default function NoteInput() {
         }, 0);
     };
 
+    const handleAddNotes = async () => {
+        try {
+            const response = await fetch('/api/notes', {
+              method: 'POST',
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(note)
+            });
+      
+            if (!response.ok) {
+              throw new Error('Failed to delete notes');
+            }
+          } catch (e) {
+            console.log(e);
+          }
+    };
+
     return (
         <>
             {!input.isActive ?
-            <Box className="border rounded-lg w-3/4 py-2 px-4 my-6 lg:w-2/5 shadow"
-                >
+            <Box 
+                className="border rounded-lg w-3/4 py-2 px-4 my-6 lg:w-2/5 shadow"
+            >
                     <TextField
                         fullWidth
                         id="input-with-icon-textfield"
@@ -54,7 +79,15 @@ export default function NoteInput() {
                     />
                 </Box>
                 : 
-                <Box className="border rounded-lg w-3/4 py-2 px-4 my-6 lg:w-2/5" onBlur={handleBlur}>
+                <Box 
+                    className="border rounded-lg w-3/4 py-2 px-4 my-6 lg:w-2/5" 
+                    onBlur={handleBlur} 
+                    onKeyDown={(e) => {
+                        if(e.key === 'Enter') {
+                            handleAddNotes();
+                        };
+                    }}
+                >
                     <TextField
                         className='mt-1'
                         fullWidth
@@ -64,7 +97,10 @@ export default function NoteInput() {
                             disableUnderline: true
                         }}
                         variant="standard"
-                    />
+                        onChange={(e) => {
+                            setNote({...note, title: e.target.value})
+                        }}
+                    /> 
                     <TextField
                         className='mt-2'
                         fullWidth
@@ -80,6 +116,9 @@ export default function NoteInput() {
                             disableUnderline: true
                         }}
                         variant="standard"
+                        onChange={(e) => {
+                            setNote({...note, content: e.target.value})
+                        }}
                     />
                 </Box>
                 }

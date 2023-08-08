@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import Sidebar from '@/components/layout/Sidebar';
 import Theme from '@/components/layout/Theme';
 import Wrapper from '@/components/layout/Wrapper';
+import { Providers } from './redux/provider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,14 +20,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Theme>
-          <div className="flex">
-            <Sidebar />
+        <Providers>
+          <Theme>
+            <div className="flex">
+              <Sidebar />
               <Wrapper>
                 {children}
               </Wrapper>
-          </div>
-        </Theme>
+            </div>
+          </Theme>
+        </Providers>
       </body>
     </html>
   )

@@ -26,5 +26,17 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    return NextResponse.json(body, { status: 200 })
+    const response = await supabase.from('notes').insert({
+        user_id: body.user_id,
+        title: body.title,
+        content: body.content
+    });
+
+    return NextResponse.json(response, { status: 200 });
+};
+
+export async function PUT(request: Request) {
+    const body = await request.json();
+
+    return NextResponse.json(body, { status: 200 });
 };

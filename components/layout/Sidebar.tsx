@@ -19,7 +19,7 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Topbar from './Toolbar';
+import Topbar from './Topbar';
 
 const drawerWidth = 220;
 

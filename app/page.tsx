@@ -5,6 +5,9 @@ import NoteContainer from "@/components/common/NoteContainer";
 import NoteInput from "@/components/common/NoteInput";
 import { CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "./redux/store";
+import { setCheckedNotes } from "./redux/checkedNotesReducer";
 
 type Notes = {
   error?: string,
@@ -21,18 +24,18 @@ type Notes = {
 
 const Home = () => {
 
+  const checkedNotes = useSelector((state: RootState) => state.checkedNotes.list);
+  const dispatch = useDispatch();
   const [notes, setNotes] = useState<Notes>();
-  const [checkedNotes, setCheckedNotes] = useState<number[]>([]);
+
   const [loading, setLoading] = useState<boolean>(true);
 
   const onCardCheck = (id: number) => {
-    setCheckedNotes((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter(noteId => noteId !== id);
-      } else {
-        return [...prev, id];
-      };
-    });
+    const updatedCheckedNotes = checkedNotes.includes(id)
+      ? checkedNotes.filter(noteId => noteId !== id)
+      : [...checkedNotes, id];
+
+    dispatch(setCheckedNotes(updatedCheckedNotes));
   };
 
   const handleDeleteNotes = async () => {
@@ -54,7 +57,6 @@ const Home = () => {
       console.log(e);
     }
   };
-
 
   const loadNotes = async () => {
     try {
