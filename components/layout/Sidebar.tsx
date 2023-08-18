@@ -1,16 +1,14 @@
 "use client";
+
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
 import NoteIcon from '@mui/icons-material/Note';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
@@ -19,18 +17,17 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Topbar from './Topbar';
+import Appbar from './Appbar';
 
 const drawerWidth = 220;
 
 export default function Sidebar() {
+
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
-
-    
 
     const drawer = (
         <div>
@@ -70,28 +67,10 @@ export default function Sidebar() {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar
-                elevation={0}
-                position="absolute"
-                sx={{
-                    width: { md: `calc(100% - ${drawerWidth}px)` },
-                    ml: { md: `${drawerWidth}px` },
-                }}
-                className='p-2'
-            >
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { md: 'none' } }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                <Topbar />
-                </Toolbar>
-            </AppBar>
+            <Appbar
+                drawerWidth={drawerWidth}
+                handleDrawerToggle={handleDrawerToggle}
+            />
             <Box
                 component="nav"
                 sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}

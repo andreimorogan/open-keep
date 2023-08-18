@@ -12,6 +12,7 @@ export const metadata = {
   description: 'Open source notes & reminders app',
 };
 
+
 export default function RootLayout({
   children,
 }: {

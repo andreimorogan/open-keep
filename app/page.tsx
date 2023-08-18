@@ -7,55 +7,46 @@ import { CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./redux/store";
-import { setCheckedNotes } from "./redux/checkedNotesReducer";
+import { setCheckedAndDeleted } from "./redux/checkedNotesReducer";
 
-type Notes = {
-  error?: string,
-  data: {
-    note_id: number,
-    user_id: number,
-    title: string,
-    content: string
-  }[],
-  count?: number,
-  status: number,
-  statusText: string
+interface Note {
+  note_id: number;
+  user_id: number;
+  title: string;
+  content: string;
+};
+
+interface Notes {
+  data: Note[];
+  error?: string;
+  count?: number;
+  status?: number | undefined;
+  statusText?: string;
 };
 
 const Home = () => {
 
-  const checkedNotes = useSelector((state: RootState) => state.checkedNotes.list);
+  const checkedNotes = useSelector((state: RootState) => state.checkedNotes);
   const dispatch = useDispatch();
-  const [notes, setNotes] = useState<Notes>();
 
+  const [notes, setNotes] = useState<Notes>();
   const [loading, setLoading] = useState<boolean>(true);
 
   const onCardCheck = (id: number) => {
-    const updatedCheckedNotes = checkedNotes.includes(id)
-      ? checkedNotes.filter(noteId => noteId !== id)
-      : [...checkedNotes, id];
+    const updatedCheckedNotes = checkedNotes.checked.includes(id)
+      ? checkedNotes.checked.filter(noteId => noteId !== id)
+      : [...checkedNotes.checked, id];
 
-    dispatch(setCheckedNotes(updatedCheckedNotes));
+    dispatch(setCheckedAndDeleted({
+      ...checkedNotes,
+      checked: updatedCheckedNotes
+    }));
   };
 
-  const handleDeleteNotes = async () => {
-    try {
-      const queryParams = new URLSearchParams();
-      checkedNotes.forEach(id => queryParams.append('ids', id.toString()));
-
-      const response = await fetch(`/api/notes?${queryParams.toString()}`, {
-        method: 'DELETE',
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete notes');
-      }
-    } catch (e) {
-      console.log(e);
-    }
+  const onCardAdd = (note: Note) => {
+    if (notes && notes.data) {
+      setNotes({ ...notes, data: [...notes.data, note]})
+    };
   };
 
   const loadNotes = async () => {
@@ -77,11 +68,17 @@ const Home = () => {
     loadNotes()
   }, []);
 
+  useEffect(() => {
+    if (notes && notes.data) {
+      const filteredNotes = notes.data.filter(note => !checkedNotes.deleted.includes(note.note_id));
+      setNotes(prev => ({ ...prev, data: filteredNotes }));
+    }
+  }, [checkedNotes.deleted.length]);
+
   return (
     <>
       <div className="flex flex-col items-center justify-center">
-        <div className="cursor-pointer" onClick={() => handleDeleteNotes()}>Teeeest</div>
-        <NoteInput />
+        <NoteInput onCardAdd={onCardAdd} />
         {loading ?
           <CircularProgress sx={{ position: 'absolute', top: '50%', left: '50%' }} />
           :

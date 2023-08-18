@@ -26,13 +26,13 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    const response = await supabase.from('notes').insert({
+    const { data } = await supabase.from('notes').insert({
         user_id: body.user_id,
         title: body.title,
         content: body.content
-    });
+    }).select()
 
-    return NextResponse.json(response, { status: 200 });
+    return NextResponse.json(data, { status: 200 });
 };
 
 export async function PUT(request: Request) {

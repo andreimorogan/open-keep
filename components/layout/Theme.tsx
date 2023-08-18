@@ -1,6 +1,7 @@
 "use client"
-import React, { createContext, useState, useContext } from "react";
-import { createTheme, ThemeProvider, Theme } from "@mui/material/styles"; // Import the Theme type
+
+import React, { createContext, useState, useContext, useEffect } from "react";
+import { createTheme, ThemeProvider, Theme } from "@mui/material/styles";
 
 type ThemeProps = {
     children: React.ReactNode;
@@ -10,7 +11,7 @@ type ThemeContextProps = {
     isDarkTheme: boolean;
     setIsDarkTheme: React.Dispatch<React.SetStateAction<boolean>>;
     toggleTheme: () => void;
-    theme: Theme; 
+    theme: Theme;
 };
 
 export const ThemeContext = createContext<ThemeContextProps>({
@@ -26,6 +27,17 @@ const ThemeProviderComponent: React.FC<ThemeProps> = ({ children }) => {
     const toggleTheme = () => {
         setIsDarkTheme((prev) => !prev);
     };
+
+    useEffect(() => {
+        const storedTheme = localStorage.getItem("isDarkTheme");
+        if (storedTheme !== null) {
+            setIsDarkTheme(storedTheme === "true");
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("isDarkTheme", String(isDarkTheme));
+    }, [isDarkTheme]);
 
     const theme = createTheme({
         palette: {

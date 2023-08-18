@@ -8,7 +8,20 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { Tooltip } from '@mui/material';
 import { useState } from 'react';
 
-export default function NoteInput() {
+interface Note {
+    note_id: number,
+    user_id: number,
+    title: string,
+    content: string
+};
+
+type NoteInputProps = {
+    onCardAdd: (note: Note) => void
+};
+
+const NoteInput: React.FC<NoteInputProps> = ({
+    onCardAdd
+}) => {
 
     const [input, setInput] = useState({
         isActive: false,
@@ -40,6 +53,19 @@ export default function NoteInput() {
               },
               body: JSON.stringify(note)
             });
+
+            const responseBody: Note[] = await response.json();
+
+            const noteToAdd = {
+                note_id: responseBody[0].note_id,
+                user_id: 1,
+                title: note.title,
+                content: note.content
+            };
+
+            console.log(noteToAdd)
+
+            onCardAdd(noteToAdd);
       
             if (!response.ok) {
               throw new Error('Failed to delete notes');
@@ -127,3 +153,5 @@ export default function NoteInput() {
 
     );
 }
+
+export default NoteInput
